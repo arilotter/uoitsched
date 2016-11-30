@@ -6,19 +6,6 @@ def weekday_range(start_date, end_date, day_of_week):
     Returns a generator of all the days between two date objects.
     
     Results include the start and end dates.
-    
-    Arguments can be either datetime.datetime or date type objects.
-    
-    h3. Example usage
-    
-        >>> import datetime
-        >>> import calculate
-        >>> dr = calculate.date_range(datetime.date(2009,1,1), datetime.date(2009,1,3))
-        >>> dr
-        <generator object="object" at="at">
-        >>> list(dr)
-        [datetime.date(2009, 1, 1), datetime.date(2009, 1, 2), datetime.date(2009, 1, 3)]
-        
     """
     # If a datetime object gets passed in,
     # change it to a date so we can do comparisons.
