@@ -6,11 +6,6 @@ from datetime import datetime
 from base64 import b64encode
 from urllib import parse
 
-# calendar = get_schedule(USERNAME, PASSWORD, start_date)
-# with open(USERNAME + '.ics', 'w') as cal_file:
-#       cal_file.writelines(calendar)
-
-
 # Winter semester, 2017
 start_date = datetime(2017, 1, 9)
 
