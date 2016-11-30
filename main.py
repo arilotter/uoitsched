@@ -44,7 +44,7 @@ class Server(BaseHTTPRequestHandler):
       else:
         output += 'successfully!</h1>'
       output += '<h2><a download="%s" href="%s" title="Download Schedule">Click here to download your schedule</a></h2>' % (post_data['username'] + '.ics', encoded_schedule)
-      output += '<a href="/"">go back</a><p>Created by <a href="https://arilotter.com/">Ari Lotter</a></p></body></html>'
+      output += '<a href="/"">go back</a><p>Created by <a href="https://arilotter.com/">Ari Lotter</a>, source code on <a href="https://github.com/arilotter/uoitsched">GitHub</a></p></body></html>'
 
       self.wfile.write(output.encode('utf-8'))
       
@@ -52,7 +52,7 @@ class Server(BaseHTTPRequestHandler):
       self.send_response(200)
       self.send_header('Content-Type', 'text/html')
       self.end_headers()
-      self.wfile.write(b'<html><body><h1>Bad username or password!</h1><a href="/"">go back</a><p>Created by <a href="https://arilotter.com/">Ari Lotter</a></p></body></html>')
+      self.wfile.write(b'<html><body><h1>Bad username or password!</h1><a href="/"">go back</a><p>Created by <a href="https://arilotter.com/">Ari Lotter</a>, source code on <a href="https://github.com/arilotter/uoitsched">GitHub</a></p></body></html>')
 
 
 def run(server_class=HTTPServer, handler_class=Server, port=8080):
