@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Schedule Downloader!</title>
+</head>
+
+<body>
+<h1>Welcome to the UOIT 2016 Winter Semester schedule downloader!</h1>
+<p>Enter your username and password, and you'll get a file that you can import into Google Calendar, iCloud, or whatever other calendar service you may use.</p>
+<p>Your username and password are <b>not</b> saved, logged, or viewed in any way.</p>
+<form action="/schedule" method="post">
+	<label for="username">Username</label>
+	<input type="text" id="username" name="username">
+	<label for="password">Password</label>
+	<input type="password" id="password" name="password">
+	<button type="submit">Generate my schdule!</button>
+</form>
+<p>Created by <a href="https://arilotter.com/">Ari Lotter</a></p>
+</body>
+</html>
