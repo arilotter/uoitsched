@@ -2,12 +2,16 @@
 from bs4 import BeautifulSoup
 from ics import Calendar, Event
 import requests
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 import weekday
 
 lookup_table = {}
-TIMEZONE_OFFSET = 5 # eastern standard time
 login_url = 'https://portal.mycampus.ca/cp/ip/login?sys=sct&url='
+
+
+def timezone_offset(date_):
+  print(date_)
+  return 5 if date_ < date(2017, 3, 11) else 4 # daylight savings kek
 
 def parse_schedule(soup):
   # There is a single CRN tag associated with every course, so we can use it to find all the info for each course.
@@ -31,10 +35,10 @@ def parse_schedule(soup):
       except ValueError:
         warnings += ['Course does not have an assigned meeting time: ' + course_title + ' ' + kind]
       class_dates = weekday.weekday_range(start_date, end_date, day)
-      for date in class_dates:
-        datetime_ = datetime(year=date.year, month=date.month, day=date.day)
-        start_datetime = datetime_ + timedelta(hours=start_time.hour + TIMEZONE_OFFSET, minutes=start_time.minute, seconds=start_time.second)
-        end_datetime = datetime_ + timedelta(hours=end_time.hour + TIMEZONE_OFFSET, minutes=end_time.minute, seconds=end_time.second)
+      for date_ in class_dates:
+        datetime_ = datetime(year=date_.year, month=date_.month, day=date_.day)
+        start_datetime = datetime_ + timedelta(hours=start_time.hour + timezone_offset(date_), minutes=start_time.minute, seconds=start_time.second)
+        end_datetime = datetime_ + timedelta(hours=end_time.hour + timezone_offset(date_), minutes=end_time.minute, seconds=end_time.second)
         event = Event(begin=start_datetime, end=end_datetime)
         event.name = course_title + ' ' + kind
         event.location = location.split()[-1]
