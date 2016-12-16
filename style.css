@@ -1,0 +1,54 @@
+body {
+  background: #e2e1e0;
+  text-align: center;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.card {
+  background: #fff;
+  border-radius: 2px;
+  display: inline-block;
+  /*min-height: 300px;*/
+  padding: 1rem;
+  position: relative;
+  width: calc(100% - 2rem);
+  max-width: 480px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.title {
+  background: #1E88E5;
+  color: white;
+  padding-top: 16px;
+  padding-bottom: 128px;
+  margin-bottom: -74px;
+}
+
+h1 {
+  margin: 0;
+}
+
+button, .button {
+  margin: 8px;
+  background: #0f9d58;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  color: white;
+  border: 0;
+  display: inline-block;
+  position: relative;
+  min-width: 120px;
+  height: 32px;
+  line-height: 32px;
+  border-radius: 2px;
+  font-size: 0.9em;
+  text-decoration: none;
+}
+
+.button {
+  padding: 8px;
+}
+
+.divider {
+  padding: 8px;
+}

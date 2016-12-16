@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler, HTTPServer, SimpleHTTPRequestHandler
 from schedule import get_schedule
 from datetime import datetime
 from base64 import b64encode
@@ -9,20 +9,28 @@ from urllib import parse
 # Winter semester, 2017
 start_date = datetime(2017, 1, 9)
 
-class Server(BaseHTTPRequestHandler):
+
+with open('template.html', 'r') as f:
+  template = f.read()
+
+class Server(SimpleHTTPRequestHandler):
+
+  def write_template(self, output):
+      self.wfile.write(template.replace('{CONTENTS}', output).encode('utf-8'))
+
   def _set_headers(self):
     self.send_response(200)
     self.send_header('Content-type', 'text/html')
     self.end_headers()
 
   def do_GET(self):
-    self._set_headers()
-    with open('index.html', 'rb') as f:
-      self.wfile.write(f.read())
+    if self.path == '/':
+      with open('homepage.html', 'r') as f:
+        homepage = f.read()
+      self.write_template(homepage)
+    else:
+      SimpleHTTPRequestHandler.do_GET(self)
 
-  def do_HEAD(self):
-    self._set_headers()
-      
   def do_POST(self):
     self.send_response(200)
     content_length = int(self.headers['Content-Length'])
@@ -35,7 +43,7 @@ class Server(BaseHTTPRequestHandler):
       self.send_header('Content-Type', 'text/html')
       self.end_headers()
       encoded_schedule = 'data:application/octet-stream;base64,' + b64encode(str(schedule).encode('utf-8')).decode('utf-8')
-      output = '<html><body><h1>Schedule created '
+      output = '<h1>Schedule created '
       if warnings:
         output += 'with %s warning%s!</h1><ul>'% (len(warnings), '' if len(warnings) == 1 else 's')
         for warning in warnings:
@@ -43,16 +51,17 @@ class Server(BaseHTTPRequestHandler):
         output += '</ul>'
       else:
         output += 'successfully!</h1>'
-      output += '<h2><a download="%s" href="%s" title="Download Schedule">Click here to download your schedule</a></h2>' % (post_data['username'] + '.ics', encoded_schedule)
-      output += '<a href="/"">go back</a><p>Created by <a href="https://arilotter.com/">Ari Lotter</a>, source code on <a href="https://github.com/arilotter/uoitsched">GitHub</a></p></body></html>'
+      output += '<h2><a class="button" download="%s" href="%s" title="Download Schedule">Click here to download your schedule</a></h2>' % (post_data['username'] + '.ics', encoded_schedule)
+      output += '<a href="/"">go back</a>'
 
-      self.wfile.write(output.encode('utf-8'))
+      self.write_template(output)
       
     else:
       self.send_response(200)
       self.send_header('Content-Type', 'text/html')
       self.end_headers()
-      self.wfile.write(b'<html><body><h1>Bad username or password!</h1><a href="/"">go back</a><p>Created by <a href="https://arilotter.com/">Ari Lotter</a>, source code on <a href="https://github.com/arilotter/uoitsched">GitHub</a></p></body></html>')
+      output = '<h1>Incorrect username or password!</h1><a href="/"">go back</a>'
+      self.write_template(output)
 
 
 def run(server_class=HTTPServer, handler_class=Server, port=8080):

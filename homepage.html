@@ -1,0 +1,13 @@
+<p>Enter your MyCampus username and password, smash that button, and you'll receive a file that you can import into Google Calendar, iCloud, or whatever other calendar service you may use.</p>
+<p>Your username and password are <b>never</b> saved, logged, or viewed in any way.</p>
+<form action="/schedule" method="post">
+  <div class="divider">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" pattern="^[0-9]{9}$">
+  </div>
+  <div class="divider">
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password">
+  </div>
+	<button type="submit">Generate my schedule!</button>
+</form>
