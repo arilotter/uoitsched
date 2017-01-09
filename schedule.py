@@ -54,7 +54,7 @@ def get_schedule(username, password, start_date):
     'uuid': '0xACA021'
   }
   with requests.Session() as request_session:
-    p = request_session.post('https://portal.mycampus.ca/cp/home/login', data=payload)
+    request_session.post('https://portal.mycampus.ca/cp/home/login', data=payload)
     detail_url = 'https://ssbp.mycampus.ca/prod_uoit/bwskfshd.P_CrseSchdDetl'
     request_session.get(login_url + detail_url)
     r = request_session.post(detail_url, data={'term_in': start_date.strftime('%Y%m')})
