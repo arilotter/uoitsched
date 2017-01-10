@@ -52,3 +52,7 @@ button, .button {
 .divider {
   padding: 8px;
 }
+
+li {
+  text-align: left;
+}

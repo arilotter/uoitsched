@@ -52,7 +52,7 @@ class Server(SimpleHTTPRequestHandler):
         output += '</ul>'
       else:
         output += 'successfully!</h1>'
-      output += '<h2><a class="button" download="%s" href="%s" title="Download Schedule">Click here to download your schedule</a></h2>' % (post_data['username'] + '.ics', encoded_schedule)
+      output += '<h2><a class="button" download="%s" href="%s" title="Download Schedule">Download Schedule</a></h2>' % (post_data['username'] + '.ics', encoded_schedule)
       output += '<a href="/"">go back</a>'
 
       self.write_template(output)
