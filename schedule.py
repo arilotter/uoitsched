@@ -10,7 +10,6 @@ login_url = 'https://portal.mycampus.ca/cp/ip/login?sys=sct&url='
 
 
 def timezone_offset(date_):
-  print(date_)
   return 5 if date_ < date(2017, 3, 11) else 4 # daylight savings kek
 
 def parse_schedule(soup):
@@ -54,6 +53,7 @@ def get_schedule(username, password, start_date):
     'uuid': '0xACA021'
   }
   with requests.Session() as request_session:
+    print("logging in as %s" % payload['user'])
     request_session.post('https://portal.mycampus.ca/cp/home/login', data=payload)
     detail_url = 'https://ssbp.mycampus.ca/prod_uoit/bwskfshd.P_CrseSchdDetl'
     request_session.get(login_url + detail_url)
