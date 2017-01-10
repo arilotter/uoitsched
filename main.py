@@ -25,6 +25,7 @@ class Server(SimpleHTTPRequestHandler):
 
   def do_GET(self):
     if self.path == '/':
+      self._set_headers()
       with open('homepage.html', 'r') as f:
         homepage = f.read()
       self.write_template(homepage)
