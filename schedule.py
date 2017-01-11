@@ -2,11 +2,11 @@
 from bs4 import BeautifulSoup
 from ics import Calendar, Event
 import requests
+import urllib.parse
 from datetime import datetime, timedelta, date
 import weekday
 
 lookup_table = {}
-login_url = 'https://portal.mycampus.ca/cp/ip/login?sys=sct&url='
 
 
 def timezone_offset(date_):
@@ -56,7 +56,7 @@ def get_schedule(username, password, start_date):
     print("logging in as %s" % payload['user'])
     request_session.post('https://portal.mycampus.ca/cp/home/login', data=payload)
     detail_url = 'https://ssbp.mycampus.ca/prod_uoit/bwskfshd.P_CrseSchdDetl'
-    request_session.get(login_url + detail_url)
+    request_session.get('https://portal.mycampus.ca/cp/ip/login?sys=sct&url=' + urllib.parse.quote(detail_url))
     r = request_session.post(detail_url, data={'term_in': start_date.strftime('%Y%m')})
     soup = BeautifulSoup(r.text, 'html.parser')
     if soup.find('title').string == 'User Login':
