@@ -37,8 +37,11 @@ class Server(SimpleHTTPRequestHandler):
     content_length = int(self.headers['Content-Length'])
     post_data = self.rfile.read(content_length)
     post_data = {k:v for k, v in (x.split('=') for x in post_data.decode('utf-8').split('&'))}
-
-    schedule, warnings = get_schedule(post_data['username'], parse.unquote(post_data['password']), start_date)
+    error = None
+    try:
+      schedule, warnings = get_schedule(post_data['username'], parse.unquote(post_data['password']), start_date)
+    except Exception as e:
+      error = e
     if schedule:
       self.send_response(200)
       self.send_header('Content-Type', 'text/html')
@@ -56,12 +59,15 @@ class Server(SimpleHTTPRequestHandler):
       output += '<a href="/"">go back</a>'
 
       self.write_template(output)
-      
     else:
       self.send_response(200)
       self.send_header('Content-Type', 'text/html')
       self.end_headers()
-      output = '<h1>Incorrect username or password!</h1><a href="/"">go back</a>'
+      if not error:
+        output = '<h1>Incorrect username or password!</h1>'
+      else:
+        output = str(error)
+      output += '<a href="/"">go back</a>'
       self.write_template(output)
 
 
@@ -71,5 +77,5 @@ def run(server_class=HTTPServer, handler_class=Server, port=8080):
   print('Starting httpd...')
   httpd.serve_forever()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
   run()
