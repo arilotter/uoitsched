@@ -37,7 +37,7 @@ class Server(SimpleHTTPRequestHandler):
     content_length = int(self.headers['Content-Length'])
     post_data = self.rfile.read(content_length)
     post_data = {k:v for k, v in (x.split('=') for x in post_data.decode('utf-8').split('&'))}
-    error, schedule, warnings = None
+    error, schedule, warnings = None, None, None
     try:
       schedule, warnings = get_schedule(post_data['username'], parse.unquote(post_data['password']), start_date)
     except Exception as e:
