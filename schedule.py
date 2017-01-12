@@ -34,6 +34,7 @@ def parse_schedule(soup):
           raise ValueError('start or end date/time not defined')
       except ValueError:
         warnings += ['Course does not have an assigned meeting time: ' + course_title + ' ' + kind]
+        continue
       class_dates = weekday.weekday_range(start_date, end_date, day)
       for date_ in class_dates:
         datetime_ = datetime(year=date_.year, month=date_.month, day=date_.day)

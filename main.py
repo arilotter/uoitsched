@@ -66,8 +66,9 @@ class Server(SimpleHTTPRequestHandler):
       if not error:
         output = '<h1>Incorrect username or password!</h1>'
       else:
-        output = str(error)
-      output += '<a href="/"">go back</a>'
+        output = "<h1>An internal error occured</h1><pre>" + error + "</pre>"
+        print(error)
+      output += '<p><a href="/"">go back</a></p>'
       self.write_template(output)
 
 
