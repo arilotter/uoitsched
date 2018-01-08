@@ -5,10 +5,11 @@ from schedule import get_schedule
 from datetime import datetime
 from base64 import b64encode
 from urllib import parse
+from dateutil.parser import parse as date_parse
 import traceback
 
 # Fall semester, 2017
-start_date = datetime(2017, 9, 7)
+default_start_date = "2018-01-08"
 
 
 with open('template.html', 'r') as f:
@@ -42,6 +43,15 @@ class Server(SimpleHTTPRequestHandler):
         post_data = {k: v for k, v in (
             x.split('=') for x in post_data.decode('utf-8').split('&'))}
         error, schedule, warnings = None, None, None
+        
+        try:
+            # Given start date or left empty 
+            start_date = date_parse(post_data.get("start_date", default_start_date))
+        except ValueError as e:
+            # Given start date but not valid string; use default
+            traceback.print_exc()
+            start_date = date_parse(default_start_date)
+
         try:
             schedule, warnings = get_schedule(
                 post_data['username'], parse.unquote(post_data['password']), start_date)

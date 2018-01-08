@@ -7,10 +7,12 @@ import weekday
 
 lookup_table = {}
 
-
 def timezone_offset(date_):
-    return 5 if date_ < date(2017, 3, 11) else 4  # daylight savings kek
-
+    dst_start = datetime(date_.year, 3, 8, 2, 0)
+    dst_start += timedelta(6 - dst_start.weekday())
+    dst_end = datetime(date_.year, 11, 1, 2, 0)
+    dst_end += timedelta(6 - dst_end.weekday())
+    return 4 if dst_start.date() <= date_ < dst_end.date() else 5
 
 def parse_schedule(soup):
     # There is a single CRN tag associated with every course, so we can use it to find all the info for each course.
