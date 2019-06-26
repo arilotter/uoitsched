@@ -1,3 +1,5 @@
+This project is unmaintained, but shouldn't be too hard to update to current semesters. Go crazy!
+
 # UOITSched
 Downloads your schedule from MyCampus and transforms it into a Google/Apple calendar readable iCal file.
 
